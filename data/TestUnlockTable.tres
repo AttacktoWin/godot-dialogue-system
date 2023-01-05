@@ -1,0 +1,37 @@
+[gd_resource type="Resource" load_steps=9 format=3 uid="uid://c3ybqteets12o"]
+
+[ext_resource type="Script" path="res://scripts/classes/UnlockTable.gd" id="1_ruwh6"]
+[ext_resource type="Script" path="res://scripts/classes/UnlockTableEntry.gd" id="1_wqeg0"]
+[ext_resource type="Script" path="res://scripts/classes/DialogueNpcIds.gd" id="2_uopui"]
+
+[sub_resource type="Resource" id="Resource_1fucx"]
+script = ExtResource("2_uopui")
+dialogue_id = "1"
+npc_id = "test"
+
+[sub_resource type="Resource" id="Resource_b014u"]
+script = ExtResource("2_uopui")
+dialogue_id = "1"
+npc_id = "test2"
+
+[sub_resource type="Resource" id="Resource_4ng76"]
+script = ExtResource("1_wqeg0")
+unlocked_ids = [SubResource("Resource_1fucx"), SubResource("Resource_b014u")]
+removed_ids = null
+
+[sub_resource type="Resource" id="Resource_1iv7e"]
+script = ExtResource("2_uopui")
+dialogue_id = "default"
+npc_id = "test"
+
+[sub_resource type="Resource" id="Resource_5ud6x"]
+script = ExtResource("1_wqeg0")
+unlocked_ids = [SubResource("Resource_1iv7e")]
+removed_ids = null
+
+[resource]
+script = ExtResource("1_ruwh6")
+entries = {
+"npc-test-1": SubResource("Resource_5ud6x"),
+"npc-test-default": SubResource("Resource_4ng76")
+}

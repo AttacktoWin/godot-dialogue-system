@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://buiu2llf6h5ty"]
+
+[ext_resource type="Script" path="res://scripts/NPCInstance.gd" id="1_uoa4g"]
+
+[node name="NPCInstance" type="Node2D"]
+script = ExtResource("1_uoa4g")
