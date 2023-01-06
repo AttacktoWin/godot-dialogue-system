@@ -8,7 +8,7 @@ const Dialogue = preload("res://scripts/classes/Dialogue.gd");
 @export var dialogue_unlock_table: Resource;
 @export var save_file_name: String = "";
 
-var NPCs: Array[NPC] = [];
+var NPCs: Dictionary = {};
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,10 +16,10 @@ func _ready():
 	var init_time: int;
 	if (Engine.is_editor_hint()):
 		print("Loading Dialogue System");
-		init_time = Time.get_ticks_msec();
+		init_time = Time.get_ticks_usec();
 	for child in get_children():
 		if (child is NPC):
-			NPCs.append(child);
+			NPCs[child.id] = child;
 	
 	var save_dict := {};
 	if (FileAccess.file_exists(save_file_name)):
@@ -36,41 +36,30 @@ func _ready():
 				print("Malformed save data.");
 		else:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line());
-	for npc in NPCs:
+	for npc in NPCs.values():
 		if (save_dict.has(npc.id)):
 			npc.init_with_data(save_dict[npc.id] as Array[String]);
 		else:
 			npc.init();
 			
 	if (Engine.is_editor_hint()):
-		print("Loaded Dialogue System in {time} msec.".format({"time": Time.get_ticks_msec() - init_time}));
-
-func _find_NPC(npc_id: String) -> NPC:
-	var found = null;
-	for npc in NPCs:
-		if (npc.id == npc_id):
-			found = npc;
-			break;
-	return found;
+		print("Loaded Dialogue System in {time} usec.".format({"time": Time.get_ticks_usec() - init_time}));
 
 func get_top_dialogue(npc_id: String) -> Dialogue:
-	var npc = _find_NPC(npc_id);
-	if (npc == null):
+	if (!NPCs.has(npc_id)):
 		print("No NPC with id ", npc_id, " exists.");
 		return null;
-	return npc.get_top_dialogue();
+	return (NPCs[npc_id] as NPC).get_top_dialogue();
 
 func unlock_dialogues(unlocked: Array[DialogueNPCIds]) -> void:
 	for ids in unlocked:
-		var npc = _find_NPC(ids.npc_id)
-		if (npc != null):
-			npc.unlock_dialogue(ids.dialogue_id);
+		if (NPCs.has(ids.npc_id) && NPCs[ids.npc_id] is NPC):
+			(NPCs[ids.npc_id] as NPC).unlock_dialogue(ids.dialogue_id);
 			
 func remove_dialogues(removed: Array[DialogueNPCIds]) -> void:
 	for ids in removed:
-		var npc = _find_NPC(ids.npc_id);
-		if (npc != null):
-			npc.remove_dialogue(ids.dialogue_id);
+		if (NPCs.has(ids.npc_id) && NPCs[ids.npc_id] is NPC):
+			(NPCs[ids.npc_id] as NPC).remove_dialogue(ids.dialogue_id);
 			
 func _lookup_unlock_table(key: String) -> void:
 	if (!dialogue_unlock_table.entries.has(key)):
@@ -96,7 +85,7 @@ func event_viewed(event_tag: String):
 	
 func save() -> void:
 	var save_dict := {};
-	for npc in NPCs:
+	for npc in NPCs.values():
 		save_dict[npc.id] = npc.save();
 	var text = JSON.stringify(save_dict);
 	var file = FileAccess.open(save_file_name, FileAccess.WRITE);
