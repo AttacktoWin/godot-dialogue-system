@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://drc15now71gwy"]
-
-[ext_resource type="Script" path="res://scripts/NPC.gd" id="1_o1786"]
-
-[node name="NPC" type="Node2D"]
-script = ExtResource("1_o1786")
