@@ -6,50 +6,73 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=5
+config_version=4
 
-_global_script_classes=[{
+_global_script_classes=[ {
 "base": "Resource",
-"class": &"Dialogue",
-"language": &"GDScript",
+"class": "Dialogue",
+"language": "GDScript",
 "path": "res://scripts/classes/Dialogue.gd"
 }, {
 "base": "Resource",
-"class": &"DialogueLine",
-"language": &"GDScript",
+"class": "DialogueFile",
+"language": "GDScript",
+"path": "res://scripts/classes/DialogueFile.gd"
+}, {
+"base": "Resource",
+"class": "DialogueLine",
+"language": "GDScript",
 "path": "res://scripts/classes/DialogueLine.gd"
 }, {
 "base": "Resource",
-"class": &"DialogueNPCIds",
-"language": &"GDScript",
-"path": "res://scripts/classes/DialogueNpcIds.gd"
+"class": "DialogueNPCIds",
+"language": "GDScript",
+"path": "res://scripts/classes/DialogueNPCIds.gd"
 }, {
 "base": "Object",
-"class": &"DialogueQueue",
-"language": &"GDScript",
+"class": "DialogueQueue",
+"language": "GDScript",
 "path": "res://scripts/classes/DialogueQueue.gd"
 }, {
 "base": "Node2D",
-"class": &"NPC",
-"language": &"GDScript",
+"class": "NPC",
+"language": "GDScript",
 "path": "res://scripts/NPC.gd"
 }, {
 "base": "Resource",
-"class": &"UnlockTableEntry",
-"language": &"GDScript",
+"class": "UnlockTable",
+"language": "GDScript",
+"path": "res://scripts/classes/UnlockTable.gd"
+}, {
+"base": "Resource",
+"class": "UnlockTableEntry",
+"language": "GDScript",
 "path": "res://scripts/classes/UnlockTableEntry.gd"
-}]
+} ]
 _global_script_class_icons={
 "Dialogue": "",
+"DialogueFile": "",
 "DialogueLine": "",
 "DialogueNPCIds": "",
 "DialogueQueue": "",
 "NPC": "",
+"UnlockTable": "",
 "UnlockTableEntry": ""
 }
 
 [application]
 
-config/name="DialogueSystem"
-config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://icon.svg"
+config/name="Dialogue System 3.5"
+config/icon="res://icon.png"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

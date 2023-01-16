@@ -1,19 +1,18 @@
-class_name DialogueQueue;
+class_name DialogueQueue
 
 extends Object
 
-const Dialogue = preload("res://scripts/classes/Dialogue.gd");
+const Dialogue = preload("res://scripts/classes/Dialogue.gd")
 
-# This is a min-heap so lower priority values will be first
-var heap: Array[Dialogue];
-var size: int;
+var heap: Array
+var size: int
 
-func init() -> void:
-	heap = [];
-	size = 0;
+func _init() -> void:
+	heap = []
+	size = 0
 	
 # Used when loading the dialogue system from a save file
-func init_with_items(items: Array[Dialogue]) -> void:
+func init_with_items(items: Array) -> void:
 	heap = items;
 	size = len(items);
 	_minheapify(0);
@@ -58,11 +57,11 @@ func _find_item_index(item_id: String, key: int) -> int:
 		return key;
 	if (key >= len(heap)):
 		return -1;
-	if (heap[key] is null):
+	if (!is_instance_valid(heap[key])):
 		# Not a node so no children
 		return -1;
 	var lhs = _find_item_index(item_id, _left(key));
-	if (lhs is not null):
+	if (is_instance_valid(lhs)):
 		return lhs;
 	var rhs = _find_item_index(item_id, _right(key));
 	return rhs;
@@ -84,10 +83,10 @@ func dequeue() -> Dialogue:
 		return null;
 	
 	if (size == 1):
-		var min = heap[0];
+		var minimum = heap[0];
 		heap.clear();
 		size = 0;
-		return min;
+		return minimum;
 	
 	var root = heap[0];
 	heap[0] = heap[size - 1];
@@ -102,12 +101,12 @@ func remove(item_id: String) -> void:
 		_decrease_key(key, -1);
 		dequeue();
 		
-func _get_children(key: int) -> Array[Dialogue]:
+func _get_children(key: int) -> Array:
 	if (key >= len(heap)):
 		return [];
-	if (heap[key] is null):
+	if (!is_instance_valid(heap[key])):
 		return [];
 	return [heap[key]] + _get_children(_left(key)) + _get_children(_right(key));
 
-func get_contents() -> Array[Dialogue]:
+func get_contents() -> Array:
 	return _get_children(0);

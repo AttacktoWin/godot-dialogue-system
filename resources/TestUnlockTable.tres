@@ -1,0 +1,37 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://scripts/classes/UnlockTable.gd" type="Script" id=1]
+[ext_resource path="res://scripts/classes/UnlockTableEntry.gd" type="Script" id=2]
+[ext_resource path="res://scripts/classes/DialogueNPCIds.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+dialogue_id = "default"
+npc_id = "test"
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 2 )
+unlocked_ids = [ SubResource( 1 ) ]
+removed_ids = [  ]
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 3 )
+dialogue_id = "1"
+npc_id = "test"
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+dialogue_id = "1"
+npc_id = "test2"
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 2 )
+unlocked_ids = [ SubResource( 6 ), SubResource( 3 ) ]
+removed_ids = [  ]
+
+[resource]
+script = ExtResource( 1 )
+entries = {
+"npc-test-1": SubResource( 4 ),
+"npc-test-default": SubResource( 5 )
+}
