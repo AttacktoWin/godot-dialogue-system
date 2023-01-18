@@ -2,13 +2,13 @@ class_name Dialogue
 
 extends Resource
 
+enum Priority { STORY = 1, QUIP = 99}
 
 export var id: String
-export var priority: int
-export var parts: Array
+export (Priority) var priority
 
 
-func _init(p_id = "", p_priority = 0, p_parts = []):
+func _init(p_id = "", p_priority = Priority.QUIP):
 	id = p_id;
 	priority = p_priority;
-	parts = p_parts;
+

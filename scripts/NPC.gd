@@ -1,7 +1,7 @@
 tool
 class_name NPC
 
-extends Node2D
+extends Node
 
 const Dialogue = preload("res://scripts/classes/Dialogue.gd")
 const DialogueQueue = preload("res://scripts/classes/DialogueQueue.gd")

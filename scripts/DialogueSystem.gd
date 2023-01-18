@@ -3,7 +3,7 @@ extends Node
 
 
 const NPC = preload("res://scripts/NPC.gd")
-const DialogueNPCIds = preload("res://scripts/classes/DialogueNPCIds.gd")
+const DialogueNPCIds = preload("res://scripts/classes/DialogueNpcIds.gd")
 const Dialogue = preload("res://scripts/classes/Dialogue.gd")
 
 export var dialogue_unlock_table: Resource
@@ -49,6 +49,14 @@ func _ready():
 		print("Loaded Dialogue System in {time} usec.".format({"time": Time.get_ticks_usec() - init_time}))
 		
 		
+func display_dialogue(npc_id: String, dialogue_id: String) -> void:
+	if (Dialogic.timeline_exists(npc_id + "-" + dialogue_id)):
+		var dialog = Dialogic.start(npc_id + "-" + dialogue_id)
+		add_child(dialog)
+		dialogue_viewed(npc_id, dialogue_id)
+	else:
+		push_error("Unknown dialogue {d_id} for npc {n_id}".format({"d_id": dialogue_id, "n_id": npc_id}))
+
 func get_top_dialogue(npc_id: String) -> Dialogue:
 	if (!NPCs.has(npc_id)):
 		print("No NPC with id ", npc_id, " exists.")
